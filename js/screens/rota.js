@@ -1,7 +1,10 @@
 import { weekTemplate } from '../data/shifts.js';
+import { team, LOCATIONS } from '../data/team.js';
 import { DOW_SHORT, MONTH_NAMES, MONTH_SHORT, mondayIndex, addDays, getMonday, sameDate } from '../utils/dates.js';
+import { initials } from '../utils/format.js';
+import { renderLocationChips } from '../ui/locationChips.js';
 
-let weekOffset = 0, monthOffset = 0, rotaView = 'week', selectedDate = null;
+let weekOffset = 0, monthOffset = 0, rotaView = 'week', selectedDate = null, dayActiveLoc = LOCATIONS[0].key;
 
 function renderWeek() {
   const monday = addDays(getMonday(new Date()), weekOffset * 7);
@@ -27,6 +30,24 @@ function renderWeek() {
   document.getElementById('weekHrsLabel').textContent = `${total} hrs`;
 }
 
+function renderDayTeam(date) {
+  const idx = mondayIndex(date);
+  const people = team.filter(p => p.location === dayActiveLoc && p.pattern[idx]);
+
+  document.getElementById('dayTeamList').innerHTML = people.length
+    ? people.map(p => `
+      <div class="person-row">
+        <div class="avatar">${initials(p.name)}</div>
+        <div style="flex:1;">
+          <div class="person-name">${p.name}</div>
+          <div class="person-meta">${p.role}</div>
+        </div>
+        <div class="next-shift-time" style="font-size:14px;">${p.pattern[idx].start}–${p.pattern[idx].end}</div>
+      </div>
+    `).join('')
+    : `<div class="muted-note">Nobody scheduled that day at this location.</div>`;
+}
+
 function showDayDetail(date) {
   const card = document.getElementById('dayDetailCard');
   const shift = weekTemplate[mondayIndex(date)];
@@ -37,6 +58,13 @@ function showDayDetail(date) {
        <div class="next-shift-row"><div class="next-shift-time">${shift.start}–${shift.end}</div><div class="pill">${shift.hrs} hrs</div></div>
        <div class="loc-line">${shift.loc}</div>`
     : `<div class="card-label">${dstr}</div><div class="muted-note">Day off</div>`;
+
+  document.getElementById('dayTeamSection').style.display = 'block';
+  renderLocationChips(document.getElementById('dayLocFilter'), dayActiveLoc, loc => {
+    dayActiveLoc = loc;
+    renderDayTeam(date);
+  });
+  renderDayTeam(date);
 }
 
 function renderMonth() {

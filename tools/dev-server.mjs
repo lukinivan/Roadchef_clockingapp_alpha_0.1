@@ -17,7 +17,7 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
 };
 
-createServer(async (req, res) => {
+const server = createServer(async (req, res) => {
   const urlPath = decodeURIComponent(req.url.split('?')[0]);
   let filePath = join(root, urlPath === '/' ? 'index.html' : urlPath);
 
@@ -32,6 +32,16 @@ createServer(async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not found');
   }
-}).listen(port, () => {
+});
+
+server.on('error', err => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use — a server (maybe this same one, from an earlier run) is likely still serving on http://localhost:${port}. No need to start a second one.`);
+    process.exit(1);
+  }
+  throw err;
+});
+
+server.listen(port, () => {
   console.log(`Serving ${root} at http://localhost:${port}`);
 });

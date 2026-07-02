@@ -1,14 +1,72 @@
-// Mock data — who's on the team per location. Replace with a real API/export source later.
-export const team = {
-  bothwell: [
-    { name: 'Elena K.', role: 'Barista Maestro', on: true, time: '14:00–22:00' },
-    { name: 'James P.', role: 'Team Member', on: true, time: '06:00–14:00' },
-    { name: 'Marta S.', role: 'Shift Leader', on: false, time: 'tomorrow 06:00' },
-    { name: 'Dawid W.', role: 'Team Member', on: false, time: '22 Jul' },
-  ],
-  hamilton: [
-    { name: 'Ryan T.', role: 'Team Member', on: true, time: '08:00–16:00' },
-    { name: 'Aisha M.', role: 'Shift Leader', on: false, time: 'tomorrow 07:00' },
-    { name: 'Olek V.', role: 'Team Member', on: false, time: '3 Jul' },
-  ],
-};
+// Mock data — the team roster across locations. Replace with a real API/export source later.
+export const LOCATIONS = [
+  { key: 'bothwell', label: 'Bothwell' },
+  { key: 'hamilton-main', label: 'Hamilton Main' },
+  { key: 'hamilton-dt', label: 'Hamilton DT' },
+];
+
+// Each person has a recurring weekly pattern, Mon(0)..Sun(6), same shape as the personal rota
+// (js/data/shifts.js) so any date can be resolved the same way. null = day off.
+export const team = [
+  {
+    name: 'Elena K.', role: 'Barista Maestro', location: 'bothwell',
+    pattern: [
+      { start: '14:00', end: '22:00' }, null,
+      { start: '09:00', end: '17:00' }, null,
+      { start: '14:00', end: '22:00' }, null,
+      { start: '14:00', end: '22:00' },
+    ],
+  },
+  {
+    name: 'James P.', role: 'Team Member', location: 'bothwell',
+    pattern: [
+      { start: '06:00', end: '14:00' }, { start: '06:00', end: '14:00' }, null,
+      { start: '06:00', end: '14:00' }, null,
+      { start: '08:00', end: '16:00' }, null,
+    ],
+  },
+  {
+    name: 'Marta S.', role: 'Shift Leader', location: 'bothwell',
+    pattern: [
+      null, null,
+      { start: '06:00', end: '14:00' }, { start: '06:00', end: '14:00' },
+      { start: '14:00', end: '22:00' }, null,
+      { start: '09:00', end: '16:00' },
+    ],
+  },
+  {
+    name: 'Ryan T.', role: 'Team Member', location: 'hamilton-main',
+    pattern: [
+      { start: '08:00', end: '16:00' }, null,
+      { start: '08:00', end: '16:00' }, null,
+      { start: '08:00', end: '16:00' }, { start: '08:00', end: '16:00' },
+      null,
+    ],
+  },
+  {
+    name: 'Aisha M.', role: 'Shift Leader', location: 'hamilton-main',
+    pattern: [
+      null, { start: '07:00', end: '15:00' }, null,
+      { start: '07:00', end: '15:00' }, { start: '07:00', end: '15:00' },
+      null, { start: '09:00', end: '16:00' },
+    ],
+  },
+  {
+    name: 'Olek V.', role: 'Team Member', location: 'hamilton-dt',
+    pattern: [
+      { start: '06:00', end: '14:00' }, { start: '06:00', end: '14:00' },
+      null, null,
+      { start: '06:00', end: '14:00' }, { start: '09:00', end: '16:00' },
+      null,
+    ],
+  },
+  {
+    name: 'Dawid W.', role: 'Team Member', location: 'hamilton-dt',
+    pattern: [
+      null, null,
+      { start: '15:00', end: '21:00' }, { start: '15:00', end: '21:00' },
+      { start: '15:00', end: '21:00' }, { start: '08:00', end: '15:30' },
+      null,
+    ],
+  },
+];

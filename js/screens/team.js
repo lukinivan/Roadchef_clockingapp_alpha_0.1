@@ -1,33 +1,32 @@
-import { team } from '../data/team.js';
+import { team, LOCATIONS } from '../data/team.js';
+import { mondayIndex } from '../utils/dates.js';
+import { initials } from '../utils/format.js';
+import { renderLocationChips } from '../ui/locationChips.js';
 
-function initials(name) {
-  return name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-}
+let activeLoc = LOCATIONS[0].key;
 
-function renderTeam(loc) {
-  document.getElementById('teamList').innerHTML = team[loc].map(p => `
-    <div class="person-row">
-      <div class="avatar">${initials(p.name)}</div>
-      <div style="flex:1;">
-        <div class="person-name">${p.name}</div>
-        <div class="person-meta">${p.role}</div>
+function renderTeamList() {
+  const idx = mondayIndex(new Date());
+  const people = team.filter(p => p.location === activeLoc && p.pattern[idx]);
+
+  document.getElementById('teamList').innerHTML = people.length
+    ? people.map(p => `
+      <div class="person-row">
+        <div class="avatar">${initials(p.name)}</div>
+        <div style="flex:1;">
+          <div class="person-name">${p.name}</div>
+          <div class="person-meta">${p.role}</div>
+        </div>
+        <div class="next-shift-time" style="font-size:14px;">${p.pattern[idx].start}–${p.pattern[idx].end}</div>
       </div>
-      <div style="text-align:right;">
-        <div class="person-meta"><span class="status-dot ${p.on ? 'on' : 'off'}"></span>${p.on ? 'on shift' : 'off shift'}</div>
-        <div class="person-meta" style="margin-top:2px;">${p.time}</div>
-      </div>
-    </div>
-  `).join('');
+    `).join('')
+    : `<div class="muted-note">Nobody scheduled today at this location.</div>`;
 }
 
 export function initTeam() {
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      renderTeam(chip.dataset.loc);
-    });
+  renderLocationChips(document.getElementById('teamLocFilter'), activeLoc, loc => {
+    activeLoc = loc;
+    renderTeamList();
   });
-
-  renderTeam('bothwell');
+  renderTeamList();
 }

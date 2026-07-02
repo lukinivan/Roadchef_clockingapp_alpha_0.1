@@ -28,3 +28,14 @@ export function openConfirm(title, message, onConfirm) {
   sheetContent.querySelector('[data-action="confirm"]').addEventListener('click', () => { closeSheet(); onConfirm(); });
   sheetContent.querySelector('[data-action="cancel"]').addEventListener('click', closeSheet);
 }
+
+export function openInfo(title, message) {
+  openSheet(`
+    <h3>${title}</h3>
+    <p>${message}</p>
+    <div class="modal-actions">
+      <button class="modal-btn confirm" data-action="ok">Got it</button>
+    </div>
+  `);
+  sheetContent.querySelector('[data-action="ok"]').addEventListener('click', closeSheet);
+}

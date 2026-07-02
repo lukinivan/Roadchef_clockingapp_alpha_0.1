@@ -83,25 +83,27 @@ body {
 .screen { display: none; padding: 4px 20px 100px; }
 .screen.active { display: block; }
 
-.clock-wrap { display: flex; flex-direction: column; align-items: center; padding: 18px 0 10px; }
-.ring { position: relative; width: 208px; height: 208px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); }
-.ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
-.ring circle.track { stroke: var(--surface-2); }
-.ring circle.progress { stroke: var(--accent); stroke-dasharray: 566; stroke-dashoffset: 566; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1); stroke-linecap: round; }
-.ring.clocked-in circle.progress { stroke: var(--success); }
-.ring-inner { text-align: center; z-index: 2; }
-.ring-status { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 6px; }
-.ring-time { font-family: var(--font-mono); font-size: 27px; font-weight: 600; letter-spacing: -0.02em; }
-.ring-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
-
-.clock-btn {
-  margin-top: 20px; width: 100%; padding: 16px; border-radius: var(--radius-l); border: none;
-  background: var(--accent); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 16px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: transform .12s ease, background .3s ease;
+.shift-toggle {
+  width: 100%; display: flex; align-items: center; gap: 16px; margin-top: 4px;
+  padding: 20px; border-radius: var(--radius-l); border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text); cursor: pointer; font-family: var(--font-body);
+  text-align: left; transition: background .3s ease, border-color .3s ease;
 }
-.clock-btn.out { background: var(--surface-2); color: var(--text); border: 1.5px solid var(--border); }
-.clock-btn:active { transform: scale(0.98); }
+.shift-toggle:active { transform: scale(0.99); }
+.shift-toggle.on { background: var(--success-soft); border-color: var(--success); }
+.shift-toggle-track {
+  flex-shrink: 0; width: 52px; height: 30px; border-radius: 100px; background: var(--surface-2);
+  border: 1px solid var(--border); position: relative; transition: background .25s ease, border-color .25s ease;
+}
+.shift-toggle.on .shift-toggle-track { background: var(--success); border-color: var(--success); }
+.shift-toggle-thumb {
+  position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform .25s cubic-bezier(.65,0,.35,1);
+}
+.shift-toggle.on .shift-toggle-thumb { transform: translateX(22px); }
+.shift-toggle-status { font-size: 16px; font-weight: 700; }
+.shift-toggle.on .shift-toggle-status { color: var(--success); }
+.shift-toggle-sub { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-l); padding: 16px 18px; margin-top: 14px; }
 .card-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); font-weight: 600; margin-bottom: 8px; }
@@ -152,9 +154,14 @@ body {
 .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--surface-2); color: var(--text); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: var(--font-display); flex-shrink: 0; }
 .person-name { font-size: 14.5px; font-weight: 600; }
 .person-meta { font-size: 12px; color: var(--text-dim); margin-top: 1px; }
-.status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; display: inline-block; }
-.status-dot.on { background: var(--success); }
-.status-dot.off { background: var(--border); }
+
+.profile-hero { display: flex; align-items: center; gap: 14px; }
+.profile-avatar { width: 52px; height: 52px; font-size: 16px; }
+
+.admin-action { padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.admin-action:last-child { border-bottom: none; }
+.admin-action .label { font-size: 14px; font-weight: 600; }
+.admin-action .desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
 
 .leave-hero { text-align: center; padding: 22px 0 8px; }
 .leave-num { font-family: var(--font-display); font-size: 52px; font-weight: 600; line-height: 1; }
