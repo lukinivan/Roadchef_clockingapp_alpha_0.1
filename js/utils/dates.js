@@ -33,7 +33,3 @@ export function timeOnDate(date, hhmm) {
   result.setHours(h, m, 0, 0);
   return result;
 }
-
-export function pad(n) {
-  return String(n).padStart(2, '0');
-}
