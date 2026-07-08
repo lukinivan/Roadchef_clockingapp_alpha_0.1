@@ -33,3 +33,8 @@ export function timeOnDate(date, hhmm) {
   result.setHours(h, m, 0, 0);
   return result;
 }
+
+// Local (not UTC) Y-M-D key — safe for use as an object key regardless of timezone.
+export function dateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}

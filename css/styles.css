@@ -142,9 +142,19 @@ body {
 .cal-cell.pad { visibility: hidden; cursor: default; }
 .cal-cell.has-shift { background: var(--surface); border-color: var(--border); }
 .cal-cell.off { color: var(--text-dim); }
+.cal-cell.requested { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
 .cal-cell.selected { border-color: var(--accent); background: var(--accent-soft); }
+.cal-cell.requested.selected { border-color: var(--accent); }
 .cal-cell .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .cal-cell.today-cell { text-decoration: underline; text-underline-offset: 3px; }
+
+.request-shift-btn {
+  width: 100%; border: 1.5px dashed var(--border); border-radius: var(--radius-m); padding: 11px 12px;
+  background: transparent; color: var(--accent-2); font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 7px; font-family: var(--font-body);
+}
+.request-shift-btn .plus { font-size: 16px; line-height: 1; }
+.cancel-request { margin-top: 8px; cursor: pointer; text-decoration: underline; }
 
 .filter-row { display: flex; gap: 8px; margin-bottom: 16px; }
 .chip { padding: 8px 14px; border-radius: 100px; font-size: 12.5px; font-weight: 600; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; }
@@ -162,12 +172,6 @@ body {
 .admin-action:last-child { border-bottom: none; }
 .admin-action .label { font-size: 14px; font-weight: 600; }
 .admin-action .desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
-
-.leave-hero { text-align: center; padding: 22px 0 8px; }
-.leave-num { font-family: var(--font-display); font-size: 52px; font-weight: 600; line-height: 1; }
-.leave-label { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
-.bar-track { height: 8px; border-radius: 100px; background: var(--surface-2); overflow: hidden; margin-top: 16px; }
-.bar-fill { height: 100%; background: var(--accent-2); border-radius: 100px; }
 
 .navbar { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 10; }
 .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-dim); cursor: pointer; padding: 4px 0; }
