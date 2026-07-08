@@ -91,18 +91,19 @@ body {
 }
 .shift-toggle:active { transform: scale(0.99); }
 .shift-toggle.on { background: var(--success-soft); border-color: var(--success); }
-.shift-toggle-track {
-  flex-shrink: 0; width: 52px; height: 30px; border-radius: 100px; background: var(--surface-2);
-  border: 1px solid var(--border); position: relative; transition: background .25s ease, border-color .25s ease;
-}
-.shift-toggle.on .shift-toggle-track { background: var(--success); border-color: var(--success); }
-.shift-toggle-thumb {
-  position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; border-radius: 50%;
-  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform .25s cubic-bezier(.65,0,.35,1);
-}
-.shift-toggle.on .shift-toggle-thumb { transform: translateX(22px); }
+.shift-toggle.busy { pointer-events: none; }
 .shift-toggle-status { font-size: 16px; font-weight: 700; }
 .shift-toggle.on .shift-toggle-status { color: var(--success); }
+
+.shift-toggle-icon { flex-shrink: 0; width: 28px; height: 28px; position: relative; display: flex; align-items: center; justify-content: center; }
+.shift-toggle-icon svg { position: absolute; width: 24px; height: 24px; opacity: 0; }
+.shift-toggle-icon .spinner { fill: none; stroke: var(--accent-2); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 40 16; transform-origin: center; }
+.shift-toggle-icon.confirming .spinner { opacity: 1; animation: toggle-spin .7s linear infinite; }
+.shift-toggle-icon .check { fill: none; stroke: var(--success); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.shift-toggle-icon .check path { stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .3s ease; }
+.shift-toggle-icon.confirmed .check { opacity: 1; }
+.shift-toggle-icon.confirmed .check path { stroke-dashoffset: 0; }
+@keyframes toggle-spin { to { transform: rotate(360deg); } }
 .shift-toggle-sub { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-l); padding: 16px 18px; margin-top: 14px; }
