@@ -57,18 +57,40 @@ function renderToggle() {
   document.getElementById('toggleSub').textContent = clockedIn ? 'Tap to end your shift' : 'Tap to start your shift';
 }
 
+// Brief spinner-into-checkmark animation (like a payment confirmation) so tapping the
+// toggle feels acknowledged, even though the button's own color/text already carries state.
+function playConfirmAnimation(applyState) {
+  const toggle = document.getElementById('shiftToggle');
+  const icon = document.getElementById('toggleIcon');
+  toggle.classList.add('busy');
+  icon.classList.add('confirming');
+  setTimeout(() => {
+    icon.classList.remove('confirming');
+    icon.classList.add('confirmed');
+    applyState();
+    setTimeout(() => {
+      icon.classList.remove('confirmed');
+      toggle.classList.remove('busy');
+    }, 500);
+  }, 550);
+}
+
 function doClockIn() {
-  clockedIn = true;
-  const shift = todaysShift();
-  activeScheduledEnd = shift ? timeOnDate(new Date(), shift.end) : null;
-  renderToggle();
+  playConfirmAnimation(() => {
+    clockedIn = true;
+    const shift = todaysShift();
+    activeScheduledEnd = shift ? timeOnDate(new Date(), shift.end) : null;
+    renderToggle();
+  });
 }
 
 function doClockOut() {
-  clockedIn = false;
-  activeScheduledEnd = null;
-  renderToggle();
-  renderHomeStatic();
+  playConfirmAnimation(() => {
+    clockedIn = false;
+    activeScheduledEnd = null;
+    renderToggle();
+    renderHomeStatic();
+  });
 }
 
 // Clock in/out confirmation rules:
